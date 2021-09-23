@@ -1,6 +1,7 @@
 // import logo from "./logo.svg";
 import { Component } from "react";
 import { CardList } from "./components/card-list/card-list.component";
+import { Search } from "./components/search-box/search-box.component";
 import "./App.css";
 
 class App extends Component {
@@ -18,6 +19,11 @@ class App extends Component {
       .then((response) => response.json())
       .then((users) => this.setState({ monster: users }));
   }
+
+  //writing class method as arrow function so the 'this' points to APP class
+  handleChange = (e) => {
+    this.setState({ searchField: e.target.value });
+  };
   render() {
     //destructuring the state to implement search filtering
     const { monster, searchField } = this.state;
@@ -28,16 +34,10 @@ class App extends Component {
 
     return (
       <div className="App">
-        <input
-          type="search"
-          placeholder="Search Monsters"
-          onChange={(e) =>
-            this.setState(
-              { searchField: e.target.value } //() =>
-              //console.log(this.state) // if we immediately wanna know the state as we set it , we have to pass a second arg like this coz setState is async so it'll be one index behind if we log the state after setState is called
-            )
-          }
-          //passing our monster object as props to the card list comp
+        <h1>Monsters Rolodex</h1>
+        <Search
+          placeHolder="Search Monsters"
+          handleChange={this.handleChange}
         />
         <CardList monster={/*this.state.monster*/ filteredMonsters} />
       </div>
@@ -45,3 +45,14 @@ class App extends Component {
   }
 }
 export default App;
+
+// <input
+//           type="search"
+//           placeholder="Search Monsters"
+//           onChange={(e) =>
+//             this.setState(
+//               { searchField: e.target.value } //() =>
+//               //console.log(this.state) // if we immediately wanna know the state as we set it , we have to pass a second arg like this coz setState is async so it'll be one index behind if we log the state after setState is called
+//             )
+//           }
+//         />
